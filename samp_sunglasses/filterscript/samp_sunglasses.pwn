@@ -2,7 +2,7 @@
  *		  Filterscript: Samp Sunglasses                                                 *
  *	Authors:	 	_l0stfake7 <barpon@gmail.com>                                       *
  *				 	                                                                    *
- *  Credits:        Kalcor, CyNiC                                                       *
+ *  Credits:        Kalcor, CyNiC, mrdrifter                                            *
  *                                                                                      *
  *	Version:		0.1.1                                                               *
  *	Licence:		GNU General Public License, version 2                               *
@@ -26,7 +26,7 @@
 
 new pSunGlassesPower[MAX_PLAYERS] = DEFAULT_SUNGLASSES_POWER,
 	pSunGlassesActive[MAX_PLAYERS],
-	PlayerText:SunGlassesScreen[MAX_PLAYERS][3];
+	PlayerText:SunGlassesScreen[MAX_PLAYERS];
 
 static Float:SkinOffSet[300][7] = 
 {
@@ -334,30 +334,25 @@ static Float:SkinOffSet[300][7] =
 
 ShowSunGlassesScreen(playerid)
 {
-	for(new i = 0; i < pSunGlassesPower[playerid]; i++)
-	{
-		SunGlassesScreen[playerid][i] = CreatePlayerTextDraw(playerid, 641.666687, 1.500000, "usebox");
-		PlayerTextDrawLetterSize(playerid, SunGlassesScreen[playerid][i], 0.000000, 49.415019);
-		PlayerTextDrawTextSize(playerid, SunGlassesScreen[playerid][i], -2.000000, 0.000000);
-		PlayerTextDrawAlignment(playerid, SunGlassesScreen[playerid][i], 1);
-		PlayerTextDrawColor(playerid, SunGlassesScreen[playerid][i], 0);
-		PlayerTextDrawUseBox(playerid, SunGlassesScreen[playerid][i], true);
-		PlayerTextDrawBoxColor(playerid, SunGlassesScreen[playerid][i], 102);
-		PlayerTextDrawSetShadow(playerid, SunGlassesScreen[playerid][i], 0);
-		PlayerTextDrawSetOutline(playerid, SunGlassesScreen[playerid][i], 0);
-		PlayerTextDrawFont(playerid, SunGlassesScreen[playerid][i], 0);
-		PlayerTextDrawShow(playerid, SunGlassesScreen[playerid][i]);
-	}
+	SunGlassesScreen[playerid] = CreatePlayerTextDraw(playerid, 641.666687, 1.500000, "usebox");
+	PlayerTextDrawLetterSize(playerid, SunGlassesScreen[playerid], 0.000000, 49.415019);
+	PlayerTextDrawTextSize(playerid, SunGlassesScreen[playerid], -2.000000, 0.000000);
+	PlayerTextDrawAlignment(playerid, SunGlassesScreen[playerid], 1);
+	PlayerTextDrawColor(playerid, SunGlassesScreen[playerid], 0);
+	PlayerTextDrawUseBox(playerid, SunGlassesScreen[playerid], true);
+	PlayerTextDrawBoxColor(playerid, SunGlassesScreen[playerid], 102 + 15 * pSunGlassesPower[playerid]);
+	PlayerTextDrawSetShadow(playerid, SunGlassesScreen[playerid], 0);
+	PlayerTextDrawSetOutline(playerid, SunGlassesScreen[playerid], 0);
+	PlayerTextDrawFont(playerid, SunGlassesScreen[playerid], 0);
+	PlayerTextDrawShow(playerid, SunGlassesScreen[playerid]);
+	PlayerTextDrawShow(playerid, SunGlassesScreen[playerid]);
 	SendClientMessage(playerid, -1, "Zalozyles swoje okulary przeciwsloneczne.");
 }
 
 HideSunGlassesScreen(playerid)
 {
-	for(new i = 0; i < pSunGlassesPower[playerid]; i++)
-	{
-		PlayerTextDrawHide(playerid, SunGlassesScreen[playerid][i]);
-		PlayerTextDrawDestroy(playerid, SunGlassesScreen[playerid][i]);
-	}
+	PlayerTextDrawHide(playerid, SunGlassesScreen[playerid]);
+	PlayerTextDrawDestroy(playerid, SunGlassesScreen[playerid]);
 	pSunGlassesPower[playerid] = DEFAULT_SUNGLASSES_POWER;
 }
 
@@ -367,7 +362,7 @@ public OnFilterScriptInit()
 	print("*\tFilterscript: Samp Sunglasses");
 	print("*\tAuthors:	_l0stfake7 <barpon@gmail.com>");
 	print("*");
-	print("*\tCredits: Kalcor, CyNiC");
+	print("*\tCredits: Kalcor, CyNiC, mrdrifter");
 	print("*");
 	print("*\tVersion: 0.1.1");
 	print("*\tLicence: GNU General Public License, version 2");
