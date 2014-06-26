@@ -86,7 +86,7 @@ fnUstawKierunkowskaz(iIdentyfikatorPojazdu, iTypKierunkowskazu, bool:blnStartowe
 					if(GetVehicleTrailer(iIdentyfikatorPojazdu)) {
 						new iIdentyfikatorNaczepy=GetVehicleTrailer(iIdentyfikatorPojazdu);
 						iPojazd[iIdentyfikatorPojazdu][iObiektKierunkowskazu][2] = CreateDynamicObject(19294, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-						AttachDynamicObjectToVehicle(iPojazd[iIdentyfikatorPojazdu][iObiektKierunkowskazu][2], iIdentyfikatorNaczepy, -floatdiv(iPozycjaKierunkowskazu[GetVehicleModel(iIdentyfikatorPojazdu)-400][0], 3.0), -floatdiv(iPozycjaKierunkowskazu[GetVehicleModel(iIdentyfikatorPojazdu)-400][1], 2.4), -0.1, 0.0, 0.0, 0.0);
+						AttachDynamicObjectToVehicle(iPojazd[iIdentyfikatorPojazdu][iObiektKierunkowskazu][2], iIdentyfikatorNaczepy, -floatdiv(iPozycjaKierunkowskazu[GetVehicleModel(iIdentyfikatorPojazdu)-400][0], 3.0), -floatdiv(iPozycjaKierunkowskazu[GetVehicleModel(iIdentyfikatorPojazdu)-400][1], 2.4), -1.1, 0.0, 0.0, 0.0);
 					}
 					iPojazd[iIdentyfikatorPojazdu][iUzywanyKierunkowskaz] = LEWY_KIERUNKOWSKAZ;
 				}
@@ -103,7 +103,7 @@ fnUstawKierunkowskaz(iIdentyfikatorPojazdu, iTypKierunkowskazu, bool:blnStartowe
 					if(GetVehicleTrailer(iIdentyfikatorPojazdu)) {
 						new iIdentyfikatorNaczepy=GetVehicleTrailer(iIdentyfikatorPojazdu);
 						iPojazd[iIdentyfikatorPojazdu][iObiektKierunkowskazu][2] = CreateDynamicObject(19294, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
-						AttachDynamicObjectToVehicle(iPojazd[iIdentyfikatorPojazdu][iObiektKierunkowskazu][2], iIdentyfikatorNaczepy, floatdiv(iPozycjaKierunkowskazu[GetVehicleModel(iIdentyfikatorPojazdu)-400][0], 3.0), -floatdiv(iPozycjaKierunkowskazu[GetVehicleModel(iIdentyfikatorPojazdu)-400][1], 2.4), -0.1, 0.0, 0.0, 0.0);
+						AttachDynamicObjectToVehicle(iPojazd[iIdentyfikatorPojazdu][iObiektKierunkowskazu][2], iIdentyfikatorNaczepy, floatdiv(iPozycjaKierunkowskazu[GetVehicleModel(iIdentyfikatorPojazdu)-400][0], 3.0), -floatdiv(iPozycjaKierunkowskazu[GetVehicleModel(iIdentyfikatorPojazdu)-400][1], 2.4), -1.1, 0.0, 0.0, 0.0);
 					}
 					iPojazd[iIdentyfikatorPojazdu][iUzywanyKierunkowskaz] = PRAWY_KIERUNKOWSKAZ;
 				}
