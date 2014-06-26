@@ -1,6 +1,6 @@
 /*  SA-MP Functions
  *
- *  (c) Copyright 2005-2012, SA-MP Team
+ *  (c) Copyright 2005-2014, SA-MP Team
  *
  */
 
@@ -58,7 +58,8 @@ native SendClientMessage(playerid, color, const message[]);
 native SendClientMessageToAll(color, const message[]);
 native SendPlayerMessageToPlayer(playerid, senderid, const message[]);
 native SendPlayerMessageToAll(senderid, const message[]);
-native SendDeathMessage(killer,killee,weapon);
+native SendDeathMessage(killer, killee, weapon);
+native SendDeathMessageToPlayer(playerid, killer, killee, weapon);
 native GameTextForAll(const string[],time,style);
 native GameTextForPlayer(playerid,const string[],time,style);
 native SetTimer(funcname[], interval, repeating);
@@ -121,6 +122,8 @@ native GetServerVarAsBool(const varname[]);
 native GetPlayerNetworkStats(playerid, retstr[], retstr_size);
 native GetNetworkStats(retstr[], retstr_size);
 native GetPlayerVersion(playerid, const version[], len); // Returns the SA-MP client revision as reported by the player
+native BlockIpAddress(ip_address[], timems);
+native UnBlockIpAddress(ip_address[]);
 
 // Extended admin network stats
 native GetServerTickRate();
@@ -298,16 +301,6 @@ native ShowPlayerDialog(playerid, dialogid, style, caption[], info[], button1[],
 #define KEY_LEFT				(-128)
 #define KEY_RIGHT				(128)
 
-//Bodyparts
-
-#define BODY_PART_TORSO (3)
-#define BODY_PART_GROIN (4)
-#define BODY_PART_LEFT_ARM (5)
-#define BODY_PART_RIGHT_ARM (6)
-#define BODY_PART_LEFT_LEG (7)
-#define BODY_PART_RIGHT_LEG (8)
-#define BODY_PART_HEAD (9)
-
 // --------------------------------------------------
 // Forwards (Callback declarations)
 // --------------------------------------------------
@@ -359,6 +352,7 @@ forward OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart
 forward OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ);
 forward OnPlayerClickTextDraw(playerid, Text:clickedid);
 forward OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid);
+forward OnIncomingConnection(playerid, ip_address[], port);
 
 #define CLICK_SOURCE_SCOREBOARD		0
 forward OnPlayerClickPlayer(playerid, clickedplayerid, source);
