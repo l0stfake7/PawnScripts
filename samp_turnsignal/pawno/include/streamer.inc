@@ -27,10 +27,11 @@
 #define STREAMER_TYPE_AREA (6)
 
 #define STREAMER_AREA_TYPE_CIRCLE (0)
-#define STREAMER_AREA_TYPE_RECTANGLE (1)
+#define STREAMER_AREA_TYPE_CYLINDER (1)
 #define STREAMER_AREA_TYPE_SPHERE (2)
-#define STREAMER_AREA_TYPE_CUBE (3)
-#define STREAMER_AREA_TYPE_POLYGON (4)
+#define STREAMER_AREA_TYPE_RECTANGLE (3)
+#define STREAMER_AREA_TYPE_CUBOID (4)
+#define STREAMER_AREA_TYPE_POLYGON (5)
 
 #define STREAMER_OBJECT_TYPE_GLOBAL (0)
 #define STREAMER_OBJECT_TYPE_PLAYER (1)
@@ -42,7 +43,7 @@
 
 // Include File Version
 
-public Streamer_IncludeFileVersion = 0x27201;
+public Streamer_IncludeFileVersion = 0x27401;
 
 #pragma unused Streamer_IncludeFileVersion
 
@@ -127,8 +128,8 @@ native Streamer_GetFloatData(type, {Text3D,_}:id, data, &Float:result);
 native Streamer_SetFloatData(type, {Text3D,_}:id, data, Float:value);
 native Streamer_GetIntData(type, {Text3D,_}:id, data);
 native Streamer_SetIntData(type, {Text3D,_}:id, data, value);
-native Streamer_GetArrayData(type, {Text3D,_}:id, data, dest[], maxlength = sizeof dest);
-native Streamer_SetArrayData(type, {Text3D,_}:id, data, const src[], maxlength = sizeof src);
+native Streamer_GetArrayData(type, {Text3D,_}:id, data, dest[], maxdest = sizeof dest);
+native Streamer_SetArrayData(type, {Text3D,_}:id, data, const src[], maxsrc = sizeof src);
 native Streamer_IsInArrayData(type, {Text3D,_}:id, data, value);
 native Streamer_AppendArrayData(type, {Text3D,_}:id, data, value);
 native Streamer_RemoveArrayData(type, {Text3D,_}:id, data, value);
@@ -202,19 +203,21 @@ native IsValidDynamicMapIcon(iconid);
 native Text3D:CreateDynamic3DTextLabel(const text[], color, Float:x, Float:y, Float:z, Float:drawdistance, attachedplayer = INVALID_PLAYER_ID, attachedvehicle = INVALID_VEHICLE_ID, testlos = 0, worldid = -1, interiorid = -1, playerid = -1, Float:streamdistance = 100.0);
 native DestroyDynamic3DTextLabel(Text3D:id);
 native IsValidDynamic3DTextLabel(Text3D:id);
-native GetDynamic3DTextLabelText(Text3D:id, text[], maxlength = sizeof text);
+native GetDynamic3DTextLabelText(Text3D:id, text[], maxtext = sizeof text);
 native UpdateDynamic3DTextLabelText(Text3D:id, color, const text[]);
 
 // Natives (Areas)
 
 native CreateDynamicCircle(Float:x, Float:y, Float:size, worldid = -1, interiorid = -1, playerid = -1);
-native CreateDynamicRectangle(Float:minx, Float:miny, Float:maxx, Float:maxy, worldid = -1, interiorid = -1, playerid = -1);
+native CreateDynamicCylinder(Float:x, Float:y, Float:minz, Float:maxz, Float:size, worldid = -1, interiorid = -1, playerid = -1);
 native CreateDynamicSphere(Float:x, Float:y, Float:z, Float:size, worldid = -1, interiorid = -1, playerid = -1);
+native CreateDynamicRectangle(Float:minx, Float:miny, Float:maxx, Float:maxy, worldid = -1, interiorid = -1, playerid = -1);
+native CreateDynamicCuboid(Float:minx, Float:miny, Float:minz, Float:maxx, Float:maxy, Float:maxz, worldid = -1, interiorid = -1, playerid = -1);
 native CreateDynamicCube(Float:minx, Float:miny, Float:minz, Float:maxx, Float:maxy, Float:maxz, worldid = -1, interiorid = -1, playerid = -1);
 native CreateDynamicPolygon(Float:points[], Float:minz = -FLOAT_INFINITY, Float:maxz = FLOAT_INFINITY, maxpoints = sizeof points, worldid = -1, interiorid = -1, playerid = -1);
 native DestroyDynamicArea(areaid);
 native IsValidDynamicArea(areaid);
-native GetDynamicPolygonPoints(areaid, Float:points[], maxlength = sizeof points);
+native GetDynamicPolygonPoints(areaid, Float:points[], maxpoints = sizeof points);
 native GetDynamicPolygonNumberPoints(areaid);
 native TogglePlayerDynamicArea(playerid, areaid, toggle);
 native TogglePlayerAllDynamicAreas(playerid, toggle);
@@ -222,7 +225,7 @@ native IsPlayerInDynamicArea(playerid, areaid, recheck = 0);
 native IsPlayerInAnyDynamicArea(playerid, recheck = 0);
 native IsAnyPlayerInDynamicArea(areaid, recheck = 0);
 native IsAnyPlayerInAnyDynamicArea(recheck = 0);
-native GetPlayerDynamicAreas(playerid, areas[], maxlength = sizeof areas);
+native GetPlayerDynamicAreas(playerid, areas[], maxareas = sizeof areas);
 native GetPlayerNumberDynamicAreas(playerid);
 native IsPointInDynamicArea(areaid, Float:x, Float:y, Float:z);
 native IsPointInAnyDynamicArea(Float:x, Float:y, Float:z);
@@ -239,14 +242,12 @@ native CreateDynamicRaceCPEx(type, Float:x, Float:y, Float:z, Float:nextx, Float
 native CreateDynamicMapIconEx(Float:x, Float:y, Float:z, type, color, style = MAPICON_LOCAL, Float:streamdistance = 100.0, worlds[] = { -1 }, interiors[] = { -1 }, players[] = { -1 }, maxworlds = sizeof worlds, maxinteriors = sizeof interiors, maxplayers = sizeof players);
 native Text3D:CreateDynamic3DTextLabelEx(const text[], color, Float:x, Float:y, Float:z, Float:drawdistance, attachedplayer = INVALID_PLAYER_ID, attachedvehicle = INVALID_VEHICLE_ID, testlos = 0, Float:streamdistance = 100.0, worlds[] = { -1 }, interiors[] = { -1 }, players[] = { -1 }, maxworlds = sizeof worlds, maxinteriors = sizeof interiors, maxplayers = sizeof players);
 native CreateDynamicCircleEx(Float:x, Float:y, Float:size, worlds[] = { -1 }, interiors[] = { -1 }, players[] = { -1 }, maxworlds = sizeof worlds, maxinteriors = sizeof interiors, maxplayers = sizeof players);
-native CreateDynamicRectangleEx(Float:minx, Float:miny, Float:maxx, Float:maxy, worlds[] = { -1 }, interiors[] = { -1 }, players[] = { -1 }, maxworlds = sizeof worlds, maxinteriors = sizeof interiors, maxplayers = sizeof players);
+native CreateDynamicCylinderEx(Float:x, Float:y, Float:minz, Float:maxz, Float:size, worlds[] = { -1 }, interiors[] = { -1 }, players[] = { -1 }, maxworlds = sizeof worlds, maxinteriors = sizeof interiors, maxplayers = sizeof players);
 native CreateDynamicSphereEx(Float:x, Float:y, Float:z, Float:size, worlds[] = { -1 }, interiors[] = { -1 }, players[] = { -1 }, maxworlds = sizeof worlds, maxinteriors = sizeof interiors, maxplayers = sizeof players);
+native CreateDynamicRectangleEx(Float:minx, Float:miny, Float:maxx, Float:maxy, worlds[] = { -1 }, interiors[] = { -1 }, players[] = { -1 }, maxworlds = sizeof worlds, maxinteriors = sizeof interiors, maxplayers = sizeof players);
+native CreateDynamicCuboidEx(Float:minx, Float:miny, Float:minz, Float:maxx, Float:maxy, Float:maxz, worlds[] = { -1 }, interiors[] = { -1 }, players[] = { -1 }, maxworlds = sizeof worlds, maxinteriors = sizeof interiors, maxplayers = sizeof players);
 native CreateDynamicCubeEx(Float:minx, Float:miny, Float:minz, Float:maxx, Float:maxy, Float:maxz, worlds[] = { -1 }, interiors[] = { -1 }, players[] = { -1 }, maxworlds = sizeof worlds, maxinteriors = sizeof interiors, maxplayers = sizeof players);
 native CreateDynamicPolygonEx(Float:points[], Float:minz = -FLOAT_INFINITY, Float:maxz = FLOAT_INFINITY, maxpoints = sizeof points, worlds[] = { -1 }, interiors[] = { -1 }, players[] = { -1 }, maxworlds = sizeof worlds, maxinteriors = sizeof interiors, maxplayers = sizeof players);
-
-// Natives (Internal)
-
-native Streamer_CallbackHook(callback, {Float,_}:...);
 
 // Natives (Deprecated)
 
@@ -255,6 +256,7 @@ native Streamer_MaxItems(type, items);
 native Streamer_VisibleItems(type, items);
 native Streamer_CellDistance(Float:distance);
 native Streamer_CellSize(Float:size);
+native Streamer_CallbackHook(callback, {Float,_}:...);
 
 native DestroyAllDynamicObjects();
 native CountDynamicObjects();
@@ -284,225 +286,3 @@ forward OnPlayerEnterDynamicRaceCP(playerid, checkpointid);
 forward OnPlayerLeaveDynamicRaceCP(playerid, checkpointid);
 forward OnPlayerEnterDynamicArea(playerid, areaid);
 forward OnPlayerLeaveDynamicArea(playerid, areaid);
-
-// Callback Hook Section
-
-#define STREAMER_OPC (0)
-#define STREAMER_OPDC (1)
-#define STREAMER_OPEO (2)
-#define STREAMER_OPSO (3)
-#define STREAMER_OPPP (4)
-#define STREAMER_OPEC (5)
-#define STREAMER_OPLC (6)
-#define STREAMER_OPERC (7)
-#define STREAMER_OPLRC (8)
-#define STREAMER_OPWS (9)
-
-public OnPlayerConnect(playerid)
-{
-	Streamer_CallbackHook(STREAMER_OPC, playerid);
-	#if defined Streamer_OnPlayerConnect
-		return Streamer_OnPlayerConnect(playerid);
-	#else
-		return 1;
-	#endif
-}
-
-#if defined Streamer_OnPlayerConnect
-	forward Streamer_OnPlayerConnect(playerid);
-#endif
-#if defined _ALS_OnPlayerConnect
-	#undef OnPlayerConnect
-#else
-	#define _ALS_OnPlayerConnect
-#endif
-#define OnPlayerConnect Streamer_OnPlayerConnect
-
-public OnPlayerDisconnect(playerid, reason)
-{
-	Streamer_CallbackHook(STREAMER_OPDC, playerid, reason);
-	#if defined Streamer_OnPlayerDisconnect
-		return Streamer_OnPlayerDisconnect(playerid, reason);
-	#else
-		return 1;
-	#endif
-}
-
-#if defined Streamer_OnPlayerDisconnect
-	forward Streamer_OnPlayerDisconnect(playerid, reason);
-#endif
-#if defined _ALS_OnPlayerDisconnect
-	#undef OnPlayerDisconnect
-#else
-	#define _ALS_OnPlayerDisconnect
-#endif
-#define OnPlayerDisconnect Streamer_OnPlayerDisconnect
-
-public OnPlayerEditObject(playerid, playerobject, objectid, response, Float:fX, Float:fY, Float:fZ, Float:fRotX, Float:fRotY, Float:fRotZ)
-{
-	if (playerobject)
-	{
-		Streamer_CallbackHook(STREAMER_OPEO, playerid, playerobject, objectid, response, fX, fY, fZ, fRotX, fRotY, fRotZ);
-	}
-	#if defined Streamer_OnPlayerEditObject
-		return Streamer_OnPlayerEditObject(playerid, playerobject, objectid, response, fX, fY, fZ, fRotX, fRotY, fRotZ);
-	#else
-		return 1;
-	#endif
-}
-
-#if defined Streamer_OnPlayerEditObject
-	forward Streamer_OnPlayerEditObject(playerid, playerobject, objectid, response, Float:fX, Float:fY, Float:fZ, Float:fRotX, Float:fRotY, Float:fRotZ);
-#endif
-#if defined _ALS_OnPlayerEditObject
-	#undef OnPlayerEditObject
-#else
-	#define _ALS_OnPlayerEditObject
-#endif
-#define OnPlayerEditObject Streamer_OnPlayerEditObject
-
-public OnPlayerSelectObject(playerid, type, objectid, modelid, Float:fX, Float:fY, Float:fZ)
-{
-	if (type == SELECT_OBJECT_PLAYER_OBJECT)
-	{
-		Streamer_CallbackHook(STREAMER_OPSO, playerid, type, objectid, modelid, fX, fY, fZ);
-	}
-	#if defined Streamer_OnPlayerSelectObject
-		return Streamer_OnPlayerSelectObject(playerid, type, objectid, modelid, fX, fY, fZ);
-	#else
-		return 1;
-	#endif
-}
-
-#if defined Streamer_OnPlayerSelectObject
-	forward Streamer_OnPlayerSelectObject(playerid, type, objectid, modelid, Float:fX, Float:fY, Float:fZ);
-#endif
-#if defined _ALS_OnPlayerSelectObject
-	#undef OnPlayerSelectObject
-#else
-	#define _ALS_OnPlayerSelectObject
-#endif
-#define OnPlayerSelectObject Streamer_OnPlayerSelectObject
-
-public OnPlayerPickUpPickup(playerid, pickupid)
-{
-	Streamer_CallbackHook(STREAMER_OPPP, playerid, pickupid);
-	#if defined Streamer_OnPlayerPickUpPickup
-		return Streamer_OnPlayerPickUpPickup(playerid, pickupid);
-	#else
-		return 1;
-	#endif
-}
-
-#if defined Streamer_OnPlayerPickUpPickup
-	forward Streamer_OnPlayerPickUpPickup(playerid, pickupid);
-#endif
-#if defined _ALS_OnPlayerPickUpPickup
-	#undef OnPlayerPickUpPickup
-#else
-	#define _ALS_OnPlayerPickUpPickup
-#endif
-#define OnPlayerPickUpPickup Streamer_OnPlayerPickUpPickup
-
-public OnPlayerEnterCheckpoint(playerid)
-{
-	Streamer_CallbackHook(STREAMER_OPEC, playerid);
-	#if defined Streamer_OnPlayerEnterCP
-		return Streamer_OnPlayerEnterCP(playerid);
-	#else
-		return 1;
-	#endif
-}
-
-#if defined Streamer_OnPlayerEnterCP
-	forward Streamer_OnPlayerEnterCP(playerid);
-#endif
-#if defined _ALS_OnPlayerEnterCheckpoint
-	#undef OnPlayerEnterCheckpoint
-#else
-	#define _ALS_OnPlayerEnterCheckpoint
-#endif
-#define OnPlayerEnterCheckpoint Streamer_OnPlayerEnterCP
-
-public OnPlayerLeaveCheckpoint(playerid)
-{
-	Streamer_CallbackHook(STREAMER_OPLC, playerid);
-	#if defined Streamer_OnPlayerLeaveCP
-		return Streamer_OnPlayerLeaveCP(playerid);
-	#else
-		return 1;
-	#endif
-}
-
-#if defined Streamer_OnPlayerLeaveCP
-	forward Streamer_OnPlayerLeaveCP(playerid);
-#endif
-#if defined _ALS_OnPlayerLeaveCheckpoint
-	#undef OnPlayerLeaveCheckpoint
-#else
-	#define _ALS_OnPlayerLeaveCheckpoint
-#endif
-#define OnPlayerLeaveCheckpoint Streamer_OnPlayerLeaveCP
-
-public OnPlayerEnterRaceCheckpoint(playerid)
-{
-	Streamer_CallbackHook(STREAMER_OPERC, playerid);
-	#if defined Streamer_OnPlayerEnterRaceCP
-		return Streamer_OnPlayerEnterRaceCP(playerid);
-	#else
-		return 1;
-	#endif
-}
-
-#if defined Streamer_OnPlayerEnterRaceCP
-	forward Streamer_OnPlayerEnterRaceCP(playerid);
-#endif
-#if defined _ALS_OnPlayerEnterRaceCP
-	#undef OnPlayerEnterRaceCheckpoint
-#else
-	#define _ALS_OnPlayerEnterRaceCP
-#endif
-#define OnPlayerEnterRaceCheckpoint Streamer_OnPlayerEnterRaceCP
-
-public OnPlayerLeaveRaceCheckpoint(playerid)
-{
-	Streamer_CallbackHook(STREAMER_OPLRC, playerid);
-	#if defined Streamer_OnPlayerLeaveRaceCP
-		return Streamer_OnPlayerLeaveRaceCP(playerid);
-	#else
-		return 1;
-	#endif
-}
-
-#if defined Streamer_OnPlayerLeaveRaceCP
-	forward Streamer_OnPlayerLeaveRaceCP(playerid);
-#endif
-#if defined _ALS_OnPlayerLeaveRaceCP
-	#undef OnPlayerLeaveRaceCheckpoint
-#else
-	#define _ALS_OnPlayerLeaveRaceCP
-#endif
-#define OnPlayerLeaveRaceCheckpoint Streamer_OnPlayerLeaveRaceCP
-
-public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ)
-{
-	if (hittype == BULLET_HIT_TYPE_PLAYER_OBJECT)
-	{
-		Streamer_CallbackHook(STREAMER_OPWS, playerid, weaponid, hittype, hitid, fX, fY, fZ);
-	}
-	#if defined Streamer_OnPlayerWeaponShot
-		return Streamer_OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, fX, fY, fZ);
-	#else
-		return 1;
-	#endif
-}
-
-#if defined Streamer_OnPlayerWeaponShot
-	forward Streamer_OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ);
-#endif
-#if defined _ALS_OnPlayerWeaponShot
-	#undef OnPlayerWeaponShot
-#else
-	#define _ALS_OnPlayerWeaponShot
-#endif
-#define OnPlayerWeaponShot Streamer_OnPlayerWeaponShot
